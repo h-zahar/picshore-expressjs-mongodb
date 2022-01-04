@@ -88,7 +88,9 @@ const run = async() => {
           });
 
           app.get('/products/featured', async (req, res) => {
-            const pipeline = [ { $limit: 6 } ];
+            const query = {};
+            // const query = { isApproved: true };
+            const pipeline = [ { query }, { $limit: 6 } ];
     
             const aggCursor = productCollection.aggregate(pipeline);
             const result = await aggCursor.toArray();
