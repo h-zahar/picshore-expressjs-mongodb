@@ -108,10 +108,10 @@ const run = async() => {
             
             const cursor = images.find(query);
     
-            const images = await cursor.toArray();
+            const results = await cursor.toArray();
     
-            if(images) {
-                res.json(images);
+            if(results) {
+                res.json(results);
             }
     
             else {
