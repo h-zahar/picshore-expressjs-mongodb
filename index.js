@@ -75,10 +75,10 @@ const run = async() => {
             // const query = { isApproved: true };
             const cursor = images.find(query);
     
-            const images = await cursor.toArray();
+            const results = await cursor.toArray();
             
-            if(images) {
-              res.json(images);
+            if(results) {
+              res.json(results);
             }
     
             else {
@@ -86,6 +86,15 @@ const run = async() => {
             }
     
           });
+
+          // single images
+          app.get('/images/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log('getting specific service', id);
+            const query = { _id: ObjectId(id) };
+            const image = await images.findOne(query);
+            res.json(image);
+        })
 
           app.get('/products/featured', async (req, res) => {
             const pipeline = [ { $limit: 6 } ];
@@ -108,10 +117,10 @@ const run = async() => {
             
             const cursor = images.find(query);
     
-            const images = await cursor.toArray();
+            const results = await cursor.toArray();
     
-            if(images) {
-                res.json(images);
+            if(results) {
+                res.json(results);
             }
     
             else {
