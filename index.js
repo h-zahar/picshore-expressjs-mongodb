@@ -87,23 +87,38 @@ const run = async() => {
     
           });
 
+          app.get('/products/featured', async (req, res) => {
+            const pipeline = [ { $limit: 6 } ];
+    
+            const aggCursor = productCollection.aggregate(pipeline);
+            const result = await aggCursor.toArray();
+    
+            if(result) {
+              res.json(result);
+            }
+            else {
+              res.send([]);
+            }
+    
+          });
+
           app.get('/images/:email', async (req, res) => {
             const { email } = req.params;
-          const query = { email: email };
-          
-          const cursor = images.find(query);
+            const query = { email: email };
+            
+            const cursor = images.find(query);
+    
+            const images = await cursor.toArray();
+    
+            if(images) {
+                res.json(images);
+            }
+    
+            else {
+                res.send([]);
+            }
   
-          const images = await cursor.toArray();
-  
-          if(images) {
-            res.json(images);
-          }
-  
-          else {
-            res.send([]);
-          }
-  
-        });
+          });
   
         app.put('/images', async (req, res) => {
           const updated = req.body;
