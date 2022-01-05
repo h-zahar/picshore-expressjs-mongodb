@@ -87,16 +87,18 @@ const run = async() => {
     
           });
 
-          app.get('/products/featured', async (req, res) => {
-            const query = {};
-            // const query = { isApproved: true };
-            const pipeline = [ { query }, { $limit: 6 } ];
+          app.get('/images/featured', async (req, res) => {
+            // const query = {};
+            const query = { isApproved: true };
+            const cursor = images.find(query);
+            const results = await cursor.toArray();
+
+            if (results.length > 6) {
+              results.length = 6;
+            }
     
-            const aggCursor = productCollection.aggregate(pipeline);
-            const result = await aggCursor.toArray();
-    
-            if(result) {
-              res.json(result);
+            if(results) {
+              res.json(results);
             }
             else {
               res.send([]);
