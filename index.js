@@ -86,6 +86,25 @@ const run = async() => {
     
           });
 
+          app.get('/featured', async (req, res) => {
+            // const query = {};
+            const query = { isApproved: true };
+            const cursor = images.find(query);
+            const results = await cursor.toArray();
+
+            if (results.length > 6) {
+              results.length = 6;
+            }
+    
+            if(results) {
+              res.json(results);
+            }
+            else {
+              res.send([]);
+            }
+    
+          });
+
           app.get('/images', async (req, res) => {
             // const query = {};
             const query = { isApproved: true };
@@ -104,33 +123,14 @@ const run = async() => {
           });
 
           // Single Images
-        app.get('/images/:id', async (req, res) => {
-          const id = req.params.id;
-          // console.log('Getting Specific Service', id);
-          const query = { _id: ObjectId(id) };
+          app.get('/images/:id', async (req, res) => {
+            const id = req.params.id;
+            // console.log('Getting Specific Service', id);
+            const query = { _id: ObjectId(id) };
 
-          const image = await images.findOne(query);
-          
-          res.json(image);
-        });
-
-          app.get('/images/featured', async (req, res) => {
-            // const query = {};
-            const query = { isApproved: true };
-            const cursor = images.find(query);
-            const results = await cursor.toArray();
-
-            if (results.length > 6) {
-              results.length = 6;
-            }
-    
-            if(results) {
-              res.json(results);
-            }
-            else {
-              res.send([]);
-            }
-    
+            const image = await images.findOne(query);
+            
+            res.json(image);
           });
 
           app.get('/images/:email', async (req, res) => {
