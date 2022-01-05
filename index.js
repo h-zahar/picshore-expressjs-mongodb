@@ -71,8 +71,8 @@ const run = async() => {
           });
 
           app.get('/images', async (req, res) => {
-            const query = {};
-            // const query = { isApproved: true };
+            // const query = {};
+            const query = { isApproved: true };
             const cursor = images.find(query);
     
             const results = await cursor.toArray();
