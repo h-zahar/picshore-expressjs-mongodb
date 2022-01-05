@@ -70,6 +70,22 @@ const run = async() => {
     
           });
 
+          app.get('/all-images', async (req, res) => {
+            const query = {};
+            const cursor = images.find(query);
+    
+            const results = await cursor.toArray();
+            
+            if(results) {
+              res.json(results);
+            }
+    
+            else {
+              res.send([]);
+            }
+    
+          });
+
           app.get('/images', async (req, res) => {
             // const query = {};
             const query = { isApproved: true };
